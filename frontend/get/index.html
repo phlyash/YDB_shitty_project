@@ -1,0 +1,70 @@
+<html>
+<head>
+	<script type="text/javascript" src="../dataObjects/product.js"></script>
+    <script type="text/javascript" src="../dataObjects/store.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="insertion.js"></script>
+    <script type="text/javascript" src="../constant.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../dataObjects/optionEntry.js"></script>
+    <script type="text/javascript">
+	$(document).ready(function() {
+    $('#search_button').hide();
+    $("#product_table").hide();
+    $('.error_message').hide();
+
+    getRequest(
+        {
+            "data": "store_list",
+        },
+        update_store_list
+    )
+
+    getRequest(
+        {
+            "data": "products_list",
+            "address": "All"
+        },
+        update_product_list
+    )
+});
+	</script>
+</head>
+
+<body>
+	<div class='error_message'>Not found</div> 
+    <select id="categories">
+        <option value="All">All</option>
+    </select>
+	<table id='product_table'>
+		<tr>
+			<th>Name</th>
+			<th>Amount</th>
+			<th>Address</th>
+		</tr>
+	</table>
+    <form action="javascript:;" onsubmit="proccessFormSubmit()">
+        <table id='insertion_table'>
+            <tr>
+                </tr>
+        </table>
+        <input type="submit">
+    </form>
+    <button onclick="addRow()">Add row</button>
+
+
+	<script type="text/javascript">
+        $('#categories').change(function() {
+            getRequest(
+                {
+                    "data": "products_in_exact_store",
+                    "address": $(this).val()
+                },
+                update_product_list
+            )
+        }
+    )
+	</script>
+
+</body>
+</html>
